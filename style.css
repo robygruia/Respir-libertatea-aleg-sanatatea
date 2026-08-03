@@ -1,0 +1,4935 @@
+    :root{
+
+    --gold:   #f0be05;
+    --amber:  #d9820a;
+    --ember:  #c1421c;
+    --wine:   #8b314e;
+    --indigo: #47427e;
+    --navy:   #16213f;
+    --void:   #05070d;
+
+    --paper:  #f6efdf;
+    --paper-dim: rgba(246,239,223,0.68);
+
+    --line: rgba(246,239,223,0.14);
+
+    --display: 'Instrument Serif', serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+
+    }
+
+
+    /* ============================================
+    RESET
+    ============================================ */
+
+
+    *{
+
+    margin:0;
+    padding:0;
+
+    box-sizing:border-box;
+
+    }
+
+
+    html{
+
+    scroll-behavior:smooth;
+
+    }
+
+
+    body{
+
+    background:var(--void);
+
+    color:var(--paper);
+
+    font-family:var(--body);
+
+    overflow-x:hidden;
+
+    }
+
+
+    /* ============================================
+    TEXTURE / GRAIN
+    ============================================ */
+
+
+    body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:500;
+
+    pointer-events:none;
+
+    opacity:0.05;
+
+    mix-blend-mode:overlay;
+
+    background-image:url(
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"
+    );
+
+    }
+
+
+    a{
+
+    color:inherit;
+
+    text-decoration:none;
+
+    }
+
+
+    ::selection{
+
+    background:var(--ember);
+
+    color:var(--paper);
+
+    }
+
+
+    /* ============================================
+    NAVIGATION
+    ============================================ */
+
+
+    .nav{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+    right:0;
+
+    z-index:400;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:22px 5vw;
+
+    background:
+        linear-gradient(
+        to bottom,
+        rgba(5,7,13,0.85),
+        rgba(5,7,13,0)
+        );
+
+    backdrop-filter:blur(6px);
+
+    transition:
+        padding .35s ease,
+        background .35s ease;
+
+    }
+
+
+    .nav.scrolled{
+
+    padding:14px 5vw;
+
+    background:rgba(5,7,13,0.72);
+
+    border-bottom:1px solid var(--line);
+
+    }
+
+
+    /* ============================================
+    LOGO
+    ============================================ */
+
+
+    .nav-brand{
+
+    font-family:var(--display);
+
+    font-style:italic;
+
+    font-size:1.35rem;
+
+    letter-spacing:0.01em;
+
+    white-space:nowrap;
+
+    }
+
+
+    .nav-brand span{
+
+    color:var(--gold);
+
+    font-style:normal;
+
+    }
+
+
+    /* ============================================
+    MENIU PRINCIPAL
+    ============================================ */
+
+
+    .nav-list{
+
+    list-style:none;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:2.4vw;
+
+    }
+
+
+    .nav-list > li{
+
+    position:relative;
+
+    }
+
+
+    .nav-link{
+
+    font-family:var(--mono);
+
+    font-size:0.72rem;
+
+    letter-spacing:0.09em;
+
+    text-transform:uppercase;
+
+    color:var(--paper-dim);
+
+    padding:8px 2px;
+
+    position:relative;
+
+    cursor:pointer;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    transition:color .25s ease;
+
+    }
+
+
+    .nav-link:hover,
+    .nav-link.active{
+
+    color:var(--paper);
+
+    }
+
+
+    .nav-link::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:0;
+
+    width:0;
+
+    height:1px;
+
+    background:var(--gold);
+
+    transition:width .3s ease;
+
+    }
+
+
+    .nav-link:hover::after,
+    .nav-link.active::after{
+
+    width:100%;
+
+    }
+
+
+    /* ============================================
+    SĂGEATA SUBMENIU
+    ============================================ */
+
+
+    .caret{
+
+    width:7px;
+
+    height:7px;
+
+    border-right:1px solid currentColor;
+
+    border-bottom:1px solid currentColor;
+
+    transform:
+        rotate(45deg)
+        translateY(-2px);
+
+    opacity:0.7;
+
+    transition:
+        transform .25s ease;
+
+    }
+
+
+    .has-sub:hover .caret{
+
+    transform:
+        rotate(225deg)
+        translateY(2px);
+
+    }
+
+
+    /* ============================================
+    SUBMENIU
+    ============================================ */
+
+
+    .submenu{
+
+    position:absolute;
+
+    top:calc(100% + 14px);
+
+    left:50%;
+
+    transform:
+        translateX(-50%)
+        translateY(-6px);
+
+    min-width:200px;
+
+    background:rgba(10,12,22,0.92);
+
+    border:1px solid var(--line);
+
+    backdrop-filter:blur(10px);
+
+    padding:8px;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:
+
+        opacity .25s ease,
+
+        transform .25s ease,
+
+        visibility .25s ease;
+
+    }
+
+
+    .has-sub:hover .submenu{
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+
+    }
+
+
+    .submenu li{
+
+    list-style:none;
+
+    }
+
+
+    .submenu li a{
+
+    display:block;
+
+    font-family:var(--mono);
+
+    font-size:0.7rem;
+
+    letter-spacing:0.07em;
+
+    text-transform:uppercase;
+
+    color:var(--paper-dim);
+
+    padding:11px 14px;
+
+    transition:
+
+        color .2s ease,
+
+        background .2s ease;
+
+    }
+
+
+    .submenu li a:hover{
+
+    color:var(--paper);
+
+    background:
+        rgba(240,190,5,0.08);
+
+    }
+
+
+    .submenu li + li{
+
+    border-top:1px solid var(--line);
+
+    }
+
+
+    /* ============================================
+    HERO / ACASĂ
+    ============================================ */
+
+
+    .hero{
+
+    position:relative;
+
+    min-height:100svh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    padding:0 5vw;
+
+    overflow:hidden;
+
+    }
+
+
+    .hero-bg{
+
+    position:absolute;
+
+    inset:0;
+
+    background-image:
+        url('assets/hero-gradient.jpg');
+
+    background-size:cover;
+
+    background-position:center;
+
+    z-index:-3;
+
+    }
+
+
+    .hero-bg::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+        180deg,
+        rgba(5,7,13,0.35) 0%,
+        rgba(5,7,13,0.15) 40%,
+        rgba(5,7,13,0.75) 100%
+        );
+
+    }
+
+
+    /* ============================================
+    HALO
+    ============================================ */
+
+
+    .breath-halo{
+
+    position:absolute;
+
+    left:8%;
+
+    top:38%;
+
+    width:46vw;
+
+    height:46vw;
+
+    max-width:640px;
+
+    max-height:640px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+        circle,
+        rgba(240,190,5,0.35) 0%,
+        rgba(193,66,28,0.18) 45%,
+        transparent 72%
+        );
+
+    filter:blur(10px);
+
+    z-index:-2;
+
+    animation:
+        breathe 4.2s ease-in-out infinite;
+
+    pointer-events:none;
+
+    }
+
+
+    @keyframes breathe{
+
+    0%,
+    100%{
+
+        transform:scale(1);
+
+        opacity:0.75;
+
+    }
+
+    50%{
+
+        transform:scale(1.12);
+
+        opacity:1;
+
+    }
+
+    }
+
+
+    /* ============================================
+    HERO TEXT
+    ============================================ */
+
+
+    .eyebrow{
+
+    font-family:var(--mono);
+
+    font-size:0.75rem;
+
+    letter-spacing:0.18em;
+
+    text-transform:uppercase;
+
+    color:var(--gold);
+
+    margin-bottom:22px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    }
+
+
+    .eyebrow::before{
+
+    content:"";
+
+    width:34px;
+
+    height:1px;
+
+    background:var(--gold);
+
+    }
+
+
+    .hero-title{
+
+    font-family:var(--display);
+
+    font-weight:400;
+
+    font-size:
+        clamp(
+        2.8rem,
+        7.4vw,
+        6.4rem
+        );
+
+    line-height:1.02;
+
+    max-width:14ch;
+
+    letter-spacing:-0.01em;
+
+    }
+
+
+    .hero-title em{
+
+    font-style:italic;
+
+    color:var(--gold);
+
+    }
+
+
+    .hero-sub{
+
+    margin-top:26px;
+
+    max-width:46ch;
+
+    font-size:1.05rem;
+
+    line-height:1.7;
+
+    color:var(--paper-dim);
+
+    }
+
+
+    .hero-meta{
+
+    margin-top:56px;
+
+    display:flex;
+
+    gap:48px;
+
+    flex-wrap:wrap;
+
+    }
+
+
+    .hero-meta div{
+
+    font-family:var(--mono);
+
+    font-size:0.7rem;
+
+    letter-spacing:0.08em;
+
+    text-transform:uppercase;
+
+    color:var(--paper-dim);
+
+    }
+
+
+    .hero-meta strong{
+
+    display:block;
+
+    font-family:var(--display);
+
+    font-style:italic;
+
+    font-size:1.4rem;
+
+    color:var(--paper);
+
+    margin-top:4px;
+
+    }
+
+
+    /* ============================================
+    SECȚIUNI
+    ============================================ */
+
+
+    section{
+
+    position:relative;
+
+    padding:130px 5vw;
+
+    }
+
+
+    main section{
+
+    min-height:70vh;
+
+    }
+
+
+    .section-head{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-between;
+
+    gap:40px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:64px;
+
+    border-bottom:1px solid var(--line);
+
+    padding-bottom:28px;
+
+    }
+
+
+    .section-title{
+
+    font-family:var(--display);
+
+    font-size:
+        clamp(
+        2rem,
+        4.2vw,
+        3.4rem
+        );
+
+    font-weight:400;
+
+    letter-spacing:-0.01em;
+
+    }
+
+
+    .section-title em{
+
+    font-style:italic;
+
+    color:var(--gold);
+
+    }
+
+
+    .section-note{
+
+    font-family:var(--mono);
+
+    font-size:0.72rem;
+
+    letter-spacing:0.08em;
+
+    text-transform:uppercase;
+
+    color:var(--paper-dim);
+
+    max-width:34ch;
+
+    text-align:right;
+
+    }
+
+
+    /* ============================================
+    OBIECTIVE
+    ============================================ */
+
+
+    #obiective{
+
+    background:
+        linear-gradient(
+        180deg,
+        var(--void) 0%,
+        #0a0e1c 100%
+        );
+
+    }
+
+
+    .goal-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:1px;
+
+    background:var(--line);
+
+    border:1px solid var(--line);
+
+    }
+
+
+    .goal-card{
+
+    background:var(--void);
+
+    padding:44px 34px 40px;
+
+    min-height:340px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    transition:
+        background .3s ease;
+
+    }
+
+    /* ============================================
+    OBIECTIVE - SECȚIUNI DETALIATE
+    ============================================ */
+
+
+    /* Spațiu între carduri și prima secțiune */
+
+    .objective-detail{
+
+    min-height:100vh;
+
+    display:grid;
+
+    grid-template-columns:
+        180px 1fr;
+
+    gap:70px;
+
+    align-items:start;
+
+    padding-top:150px;
+
+    padding-bottom:150px;
+
+    border-top:1px solid var(--line);
+
+    }
+
+
+    /* Numărul mare din stânga */
+
+    .detail-number{
+
+    font-family:var(--display);
+
+    font-style:italic;
+
+    font-size:
+        clamp(
+        5rem,
+        10vw,
+        10rem
+        );
+
+    line-height:0.8;
+
+    color:rgba(240,190,5,0.18);
+
+    position:sticky;
+
+    top:150px;
+
+    }
+
+
+    /* Zona cu text */
+
+    .detail-content{
+
+    max-width:900px;
+
+    }
+
+
+    /* Eticheta mică */
+
+    .detail-tag{
+
+    font-family:var(--mono);
+
+    font-size:0.7rem;
+
+    letter-spacing:0.15em;
+
+    text-transform:uppercase;
+
+    color:var(--gold);
+
+    margin-bottom:22px;
+
+    }
+
+
+    /* Titlul */
+
+    .detail-title{
+
+    font-family:var(--display);
+
+    font-style:italic;
+
+    font-weight:400;
+
+    font-size:
+        clamp(
+        3rem,
+        6vw,
+        5.5rem
+        );
+
+    line-height:1;
+
+    margin-bottom:35px;
+
+    }
+
+
+    /* Text introductiv */
+
+    .detail-intro{
+
+    max-width:800px;
+
+    font-size:1.25rem;
+
+    line-height:1.8;
+
+    color:var(--paper);
+
+    margin-bottom:35px;
+
+    }
+    .detail-intro .first-word {
+    color: var(--gold);
+    }
+
+
+    /* Textul principal */
+
+    .detail-text{
+
+    max-width:750px;
+
+    font-size:1rem;
+
+    line-height:1.9;
+
+    color:var(--paper-dim);
+
+    }
+
+
+    .detail-text p + p{
+
+    margin-top:25px;
+
+    }
+
+
+    /* Lista de activități */
+
+    .detail-list{
+
+    margin-top:60px;
+
+    border-top:1px solid var(--line);
+
+    }
+
+
+    .detail-list-item{
+
+    display:grid;
+
+    grid-template-columns:60px 1fr;
+
+    gap:25px;
+
+    padding:25px 0;
+
+    border-bottom:1px solid var(--line);
+
+    }
+
+
+    .detail-list-item span{
+
+    font-family:var(--mono);
+
+    font-size:0.7rem;
+
+    color:var(--gold);
+
+    padding-top:4px;
+
+    }
+
+
+    .detail-list-item p{
+
+    font-size:0.95rem;
+
+    line-height:1.7;
+
+    color:var(--paper-dim);
+
+    }
+
+
+    /* ============================================
+    CULORI DIFERITE PENTRU CELE 3 SECȚIUNI
+    ============================================ */
+
+
+    /* Conștientizare */
+
+    .objective-awareness{
+
+    background:
+        linear-gradient(
+        180deg,
+        #0a0e1c 0%,
+        #0d101e 100%
+        );
+
+    }
+
+
+    .objective-awareness
+    .detail-title{
+
+    color:var(--gold);
+
+    }
+
+
+    /* Prevenție */
+
+    .objective-prevention{
+
+    background:
+        linear-gradient(
+        180deg,
+        #0d101e 0%,
+        #100d18 100%
+        );
+
+    }
+
+
+    .objective-prevention
+    .detail-title{
+
+    color:#d9820a;
+
+    }
+
+
+    /* Consolidare */
+
+    .objective-consolidation{
+
+    background:
+        linear-gradient(
+        180deg,
+        #100d18 0%,
+        var(--void) 100%
+        );
+
+    }
+
+
+    .objective-consolidation
+    .detail-title{
+
+    color:#8b8ac5;
+
+    }
+
+
+    /* ============================================
+    OFFSET PENTRU MENIUL FIX
+    ============================================ */
+
+
+    /*
+    Când apeși pe Conștientizare, Prevenție
+    sau Consolidare, browserul face scroll
+    astfel încât secțiunea să nu fie ascunsă
+    sub meniul fix.
+    */
+
+
+    #constientizare,
+    #preventie,
+    #consolidare{
+
+    scroll-margin-top:90px;
+
+    }
+
+    /* ============================================
+    ACTIVITĂȚI - CONȘTIENTIZARE
+    ============================================ */
+
+    .awareness-activities {
+
+    margin-top: 80px;
+
+    border-top: 1px solid var(--line);
+
+    }
+
+
+    /* ============================================
+    FIECARE ACTIVITATE
+    ============================================ */
+
+    .awareness-item {
+
+    padding: 90px 0;
+
+    border-bottom: 1px solid var(--line);
+
+    }
+
+
+    /* ============================================
+    ZONA CU NUMĂR + TEXT
+    ============================================ */
+
+    .awareness-info {
+
+    display: grid;
+
+    grid-template-columns: 120px 1fr;
+
+    gap: 40px;
+
+    align-items: start;
+
+    margin-bottom: 50px;
+
+    }
+
+
+    /* Numărul 01 / 02 / 03 */
+
+    .awareness-number {
+
+    font-family: var(--display);
+
+    font-style: italic;
+
+    font-size: 5rem;
+
+    line-height: 0.8;
+
+    color: rgba(240, 190, 5, 0.35);
+
+    }
+
+
+    /* Eticheta mică */
+
+    .awareness-tag {
+
+    font-family: var(--mono);
+
+    font-size: 0.65rem;
+
+    letter-spacing: 0.15em;
+
+    text-transform: uppercase;
+
+    color: var(--gold);
+
+    margin-bottom: 15px;
+
+    }
+
+
+    /* Titlul CJRAE / IPJ */
+
+    .awareness-title {
+
+    font-family: var(--display);
+
+    font-style: italic;
+
+    font-weight: 400;
+
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+
+    line-height: 1;
+
+    margin: 0 0 25px;
+
+    color: var(--paper);
+
+    }
+
+
+    /* Textul descriptiv */
+
+    .awareness-text {
+
+    max-width: 800px;
+
+    font-size: 1rem;
+
+    line-height: 1.8;
+
+    color: var(--paper-dim);
+
+    margin: 0;
+
+    }
+
+
+    /* ============================================
+    GALERIA FOTO
+    ============================================ */
+
+    .awareness-gallery {
+
+    display: grid;
+
+    gap: 15px;
+
+    width: 100%;
+
+    }
+
+
+    /* 3 fotografii */
+
+    .gallery-three {
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    }
+
+
+    /* 5 fotografii */
+
+    /* ============================================
+    GALERIE SPECIALIȘTI ÎN ALIMENTAȚIE
+    SCROLL ORIZONTAL
+    ============================================ */
+
+    .food-gallery-wrapper {
+
+    width: 100%;
+
+    position: relative;
+
+    }
+
+
+    /* Containerul care permite scroll */
+
+    .food-gallery {
+
+    display: flex;
+
+    gap: 15px;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    scroll-behavior: smooth;
+
+    padding-bottom: 18px;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        var(--gold)
+        var(--line);
+
+    }
+
+
+    /* Fiecare fotografie are aceeași
+    dimensiune ca în galeria de 3 poze */
+
+    .food-gallery .gallery-image {
+
+    flex: 0 0
+        calc(
+        (100% - 30px) / 3
+        );
+
+    aspect-ratio: 4 / 3;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #11141d;
+
+    border: 1px solid var(--line);
+
+    }
+
+
+    /* Imaginile */
+
+    .food-gallery .gallery-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
+
+    }
+
+
+    /* Hover */
+
+    .food-gallery .gallery-image:hover img {
+
+    transform: scale(1.06);
+
+    filter: brightness(1.1);
+
+    }
+
+
+    /* Linia galbenă la hover */
+
+    .food-gallery .gallery-image::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 100%;
+
+    height: 3px;
+
+    background: var(--gold);
+
+    transform: scaleX(0);
+
+    transform-origin: left;
+
+    transition:
+        transform 0.4s ease;
+
+    }
+
+
+    .food-gallery .gallery-image:hover::after {
+
+    transform: scaleX(1);
+
+    }
+
+
+    /* ============================================
+    SCROLLBAR
+    ============================================ */
+
+    .food-gallery::-webkit-scrollbar {
+
+    height: 5px;
+
+    }
+
+
+    .food-gallery::-webkit-scrollbar-track {
+
+    background:
+        rgba(255,255,255,0.05);
+
+    }
+
+
+    .food-gallery::-webkit-scrollbar-thumb {
+
+    background: var(--gold);
+
+    border-radius: 10px;
+
+    }
+
+
+    .food-gallery::-webkit-scrollbar-thumb:hover {
+
+    background: #ffd000;
+
+    }
+
+
+    /* ============================================
+    INDICAȚIE PENTRU UTILIZATOR
+    ============================================ */
+
+    .gallery-scroll-hint {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 15px;
+
+    font-family: var(--mono);
+
+    font-size: 0.65rem;
+
+    letter-spacing: 0.1em;
+
+    text-transform: uppercase;
+
+    color: var(--paper-dim);
+
+    }
+
+
+    .scroll-arrow {
+
+    color: var(--gold);
+
+    font-size: 1.2rem;
+
+    animation:
+        slideArrow 1.5s ease-in-out infinite;
+
+    }
+
+
+    @keyframes slideArrow {
+
+    0%,
+    100% {
+
+        transform:
+        translateX(0);
+
+    }
+
+    50% {
+
+        transform:
+        translateX(7px);
+
+    }
+
+    }
+
+
+    /* Container imagine */
+
+    .gallery-image {
+
+    position: relative;
+
+    overflow: hidden;
+
+    aspect-ratio: 4 / 3;
+
+    background: #11141d;
+
+    border: 1px solid var(--line);
+
+    }
+
+
+    /* Imagine */
+
+    .gallery-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
+
+    }
+
+
+    /* Efect hover */
+
+    .gallery-image:hover img {
+
+    transform: scale(1.06);
+
+    filter: brightness(1.1);
+
+    }
+
+
+    /* ============================================
+    EFECT DE LINIE GALBENĂ LA HOVER
+    ============================================ */
+
+    .gallery-image::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 100%;
+
+    height: 3px;
+
+    background: var(--gold);
+
+    transform: scaleX(0);
+
+    transform-origin: left;
+
+    transition:
+        transform 0.4s ease;
+
+    }
+
+
+    .gallery-image:hover::after {
+
+    transform: scaleX(1);
+
+    }
+
+
+    /* ============================================
+    RESPONSIVE - TABLETĂ
+    ============================================ */
+
+    @media (max-width: 900px) {
+
+
+    .awareness-info {
+
+        grid-template-columns:
+        80px 1fr;
+
+        gap: 25px;
+
+    }
+
+
+    .awareness-number {
+
+        font-size: 4rem;
+
+    }
+
+
+    .gallery-five {
+
+        grid-template-columns:
+        repeat(3, 1fr);
+
+    }
+
+
+    }
+
+
+    /* ============================================
+    RESPONSIVE - TELEFON
+    ============================================ */
+
+    @media (max-width: 600px) {
+
+
+    .awareness-item {
+
+        padding: 60px 0;
+
+    }
+
+
+    .awareness-info {
+
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+
+    }
+
+
+    .awareness-number {
+
+        font-size: 3.5rem;
+
+    }
+
+
+    .awareness-title {
+
+        font-size: 3rem;
+
+    }
+
+
+    .gallery-three {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .gallery-five {
+
+        grid-template-columns:
+        repeat(2, 1fr);
+
+    }
+
+
+    }
+    @media (max-width: 600px) {
+
+    .food-gallery .gallery-image {
+
+        flex: 0 0 85%;
+
+    }
+
+    .gallery-scroll-hint {
+
+        justify-content: flex-start;
+
+    }
+
+    }
+
+
+    /* ============================================
+    RESPONSIVE
+    ============================================ */
+
+
+    @media (max-width:900px){
+
+    .objective-detail{
+
+      grid-template-columns:minmax(0,1fr);
+
+        gap:30px;
+
+        padding-top:100px;
+
+        padding-bottom:100px;
+
+    }
+
+
+    .detail-number{
+
+        position:static;
+
+        font-size:6rem;
+
+    }
+
+
+    .detail-content{
+
+        max-width:100%;
+
+      min-width:0;
+
+    }
+
+
+    .awareness-info > div,
+
+    .awareness-gallery{
+
+      min-width:0;
+
+    }
+
+    }
+
+
+    @media (max-width:600px){
+
+    .objective-detail{
+
+        padding-top:80px;
+
+        padding-bottom:80px;
+
+    }
+
+
+    .detail-number{
+
+        font-size:5rem;
+
+    }
+
+
+    .detail-title{
+
+        font-size:3.5rem;
+
+    }
+
+
+    .detail-intro{
+
+        font-size:1.05rem;
+
+    }
+
+
+    .awareness-info{
+
+      grid-template-columns:minmax(0,1fr);
+
+    }
+
+
+    .awareness-title,
+
+    .awareness-text{
+
+      min-width:0;
+
+    }
+
+
+    .detail-list-item{
+
+        grid-template-columns:40px 1fr;
+
+        gap:15px;
+
+    }
+
+    }
+
+
+    .goal-card:hover{
+
+    background:#0b0f1d;
+
+    }
+
+
+    .goal-tag{
+
+    font-family:var(--mono);
+
+    font-size:0.68rem;
+
+    letter-spacing:0.1em;
+
+    text-transform:uppercase;
+
+    color:var(--gold);
+
+    margin-bottom:22px;
+
+    }
+
+
+    .goal-title{
+
+    font-family:var(--display);
+
+    font-style:italic;
+
+    font-size:1.9rem;
+
+    margin-bottom:18px;
+
+    }
+
+
+    .goal-desc{
+
+    font-size:0.92rem;
+
+    line-height:1.75;
+
+    color:var(--paper-dim);
+
+    flex-grow:1;
+
+    }
+
+
+    .goal-dot{
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    margin-top:26px;
+
+    background:var(--amber);
+
+    }
+
+
+    .goal-card:nth-child(1)
+    .goal-dot{
+
+    background:var(--gold);
+
+    }
+
+
+    .goal-card:nth-child(2)
+    .goal-dot{
+
+    background:var(--ember);
+
+    }
+
+
+    .goal-card:nth-child(3)
+    .goal-dot{
+
+    background:var(--indigo);
+
+    }
+
+
+    /* ============================================
+    TEXT INTRODUCTIV
+    ============================================ */
+
+
+    .intro-text{
+
+    max-width:70ch;
+
+    font-size:1.05rem;
+
+    line-height:1.85;
+
+    color:var(--paper-dim);
+
+    }
+
+
+    .intro-text p + p{
+
+    margin-top:20px;
+
+    }
+
+
+    /* ============================================
+    AMPRENTA
+    ============================================ */
+
+
+    #amprenta{
+
+    background:#0a0e1c;
+
+    }
+
+
+    .imprint-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1.1fr 0.9fr;
+
+    gap:70px;
+
+    align-items:start;
+
+    }
+
+
+    .imprint-stats{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:40px 30px;
+
+    }
+
+
+    .stat-num{
+
+    font-family:var(--display);
+
+    font-style:italic;
+
+    font-size:3.2rem;
+
+    color:var(--gold);
+
+    line-height:1;
+
+    }
+
+
+    .stat-label{
+
+    margin-top:10px;
+
+    font-family:var(--mono);
+
+    font-size:0.7rem;
+
+    letter-spacing:0.08em;
+
+    text-transform:uppercase;
+
+    color:var(--paper-dim);
+
+    }
+
+    /* ============================================
+    CONȚINUT NOU - AMPRENTA CAMPANIEI
+    ============================================ */
+
+
+    /* ============================================
+    SEPARARE SECȚIUNI
+    ============================================ */
+
+    .imprint-section {
+
+    padding: 80px 0;
+
+    border-top: 1px solid var(--line);
+
+    }
+
+
+    .imprint-section:first-of-type {
+
+    border-top: none;
+
+    }
+
+
+    /* ============================================
+    TITLURILE CELOR 3 PUNCTE
+    ============================================ */
+
+    .imprint-section-heading {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 30px;
+
+    margin-bottom: 50px;
+
+    }
+
+
+    .imprint-section-number {
+
+    font-family: var(--display);
+
+    font-size: 3.5rem;
+
+    font-style: italic;
+
+    color: var(--gold);
+
+    line-height: 0.9;
+
+    flex-shrink: 0;
+
+    }
+
+
+    .imprint-section-label {
+
+    font-family: var(--mono);
+
+    font-size: 0.65rem;
+
+    letter-spacing: 0.15em;
+
+    text-transform: uppercase;
+
+    color: var(--gold);
+
+    margin-bottom: 10px;
+
+    }
+
+
+    .imprint-section-title {
+
+    font-family: var(--display);
+
+    font-size: 2.8rem;
+
+    font-style: italic;
+
+    font-weight: 400;
+
+    color: var(--paper);
+
+    margin: 0;
+
+    line-height: 1;
+
+    }
+
+
+    /* ============================================
+    01. IMPACT
+    ============================================ */
+
+    .impact-content {
+
+    display: grid;
+
+    grid-template-columns:
+        1.2fr 0.8fr;
+
+    gap: 80px;
+
+    align-items: start;
+
+    }
+
+
+    .impact-main-text {
+
+    max-width: 750px;
+
+    }
+
+
+    .impact-main-text p {
+
+    margin: 0;
+
+    font-size: 1.15rem;
+
+    line-height: 1.8;
+
+    color: var(--paper);
+
+    }
+
+
+    /* MESAJUL CARE RĂMÂNE ÎNTIPĂRIT */
+
+    .impact-message {
+
+    padding: 35px 0 35px 40px;
+
+    border-left: 2px solid var(--gold);
+
+    }
+
+
+    .impact-message p {
+
+    margin: 0;
+
+    font-family: var(--display);
+
+    font-size: 2rem;
+
+    font-style: italic;
+
+    line-height: 1.25;
+
+    color: rgba(255, 255, 255, 0.35);
+
+    }
+
+
+    /* ============================================
+    02. CHESTIONAR
+    ============================================ */
+
+    .questionnaire-text {
+
+    max-width: 750px;
+
+    margin-bottom: 45px;
+
+    }
+
+
+    .questionnaire-text p {
+
+    margin: 0;
+
+    font-size: 1rem;
+
+    line-height: 1.8;
+
+    color: var(--paper-dim);
+
+    }
+
+
+    /* GALERIE 3 POZE */
+
+    .questionnaire-gallery {
+
+    display: grid;
+
+    grid-template-columns:
+        1.4fr 1fr;
+
+    grid-template-rows:
+        250px 250px;
+
+    gap: 15px;
+
+    }
+
+
+    .questionnaire-photo {
+
+    overflow: hidden;
+
+    border: 1px solid var(--line);
+
+    background: #11141d;
+
+    }
+
+
+    .questionnaire-photo:first-child {
+
+    grid-row: span 2;
+
+    }
+
+
+    .questionnaire-photo img {
+
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
+
+    }
+
+
+    .questionnaire-photo:hover img {
+
+    transform: scale(1.04);
+
+    filter: brightness(1.08);
+
+    }
+
+
+    /* ============================================
+    03. ETAPE
+    ============================================ */
+
+    .stages-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 25px;
+
+    }
+
+
+    .stage-card {
+
+    padding: 35px;
+
+    border: 1px solid var(--line);
+
+    background:
+        rgba(255, 255, 255, 0.015);
+
+    min-height: 280px;
+
+    }
+
+
+    .stage-title {
+
+    font-family: var(--display);
+
+    font-size: 2rem;
+
+    font-style: italic;
+
+    font-weight: 400;
+
+    margin: 0 0 30px;
+
+    color: var(--paper);
+
+    }
+
+
+    .stage-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 25px;
+
+    }
+
+
+    .stage-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    }
+
+
+    .stage-code {
+
+    font-family: var(--mono);
+
+    font-size: 0.75rem;
+
+    color: var(--gold);
+
+    letter-spacing: 0.1em;
+
+    }
+
+
+    .stage-subtitle {
+
+    font-size: 0.8rem;
+
+    color: var(--paper-dim);
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
+    }
+
+
+    /* ============================================
+    RESPONSIVE
+    ============================================ */
+
+    @media (max-width: 900px) {
+
+
+    .impact-content {
+
+        grid-template-columns: 1fr;
+
+        gap: 50px;
+
+    }
+
+
+    .stages-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    }
+
+
+    @media (max-width: 600px) {
+
+
+    .imprint-section {
+
+        padding: 60px 0;
+
+    }
+
+
+    .imprint-section-heading {
+
+        gap: 20px;
+
+    }
+
+
+    .imprint-section-number {
+
+        font-size: 2.5rem;
+
+    }
+
+
+    .imprint-section-title {
+
+        font-size: 2.2rem;
+
+    }
+
+
+    .questionnaire-gallery {
+
+        grid-template-columns: 1fr;
+
+        grid-template-rows:
+        300px
+        220px
+        220px;
+
+    }
+
+
+    .questionnaire-photo:first-child {
+
+        grid-row: auto;
+
+    }
+
+
+    }
+
+
+
+    /* ============================================
+    DESPRE - PAGINA ECHIPEI
+    ============================================ */
+
+    #despre {
+    background:
+        linear-gradient(
+        180deg,
+        #0a0e1c 0%,
+        var(--void) 100%
+        );
+    }
+
+
+    /* ============================================
+    SECȚIUNI DESPRE
+    ============================================ */
+
+    .about-section {
+    padding: 90px 0;
+    border-top: 1px solid var(--line);
+    }
+
+
+    .about-section:first-child {
+    border-top: none;
+    }
+
+
+    /* ============================================
+    TITLU SECȚIUNE
+    ============================================ */
+
+    .about-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 50px;
+    }
+
+
+    .about-number {
+    font-family: var(--display);
+    font-size: 3.5rem;
+    font-style: italic;
+    color: var(--gold);
+    line-height: 0.9;
+    flex-shrink: 0;
+    }
+
+
+    .about-section-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    }
+
+
+    .about-section-title {
+    font-family: var(--display);
+    font-size: 2.8rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--paper);
+    margin: 0;
+    line-height: 1;
+    }
+
+
+    /* ============================================
+    SUBTITLU
+    ============================================ */
+
+    .about-subtitle {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 25px;
+    }
+
+
+    /* ============================================
+    TEXT
+    ============================================ */
+
+    .about-text {
+    max-width: 800px;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--paper-dim);
+    }
+
+
+    /* ============================================
+    01. ECHIPA DE PROIECT
+    ============================================ */
+
+    .project-team-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 40px;
+    }
+
+
+    .project-team-member {
+    background: var(--void);
+    padding: 30px;
+    transition: background 0.3s ease;
+    }
+
+
+    .project-team-member:hover {
+    background: #0b0f1d;
+    }
+
+
+    .project-team-member::before {
+    content: "•";
+    color: var(--gold);
+    margin-right: 12px;
+    }
+
+
+    .project-team-name {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--paper);
+    }
+
+
+    /* ============================================
+    POZA CU ECHIPA
+    ============================================ */
+
+    .team-photo {
+    margin-top: 60px;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #11141d;
+    }
+
+
+    .team-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 650px;
+    object-fit: cover;
+    transition:
+        transform 0.7s ease,
+        filter 0.7s ease;
+    }
+
+
+    .team-photo:hover img {
+    transform: scale(1.02);
+    filter: brightness(1.05);
+    }
+
+
+    /* ============================================
+    02. SOCIAL MEDIA
+    ============================================ */
+
+    .social-media-content {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 60px;
+    align-items: center;
+    }
+
+
+    /* QR CODE */
+
+    .social-qr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+
+    .social-qr img {
+    width: 280px;
+    height: 280px;
+    object-fit: contain;
+    border: 1px solid var(--line);
+    padding: 15px;
+    background: var(--paper);
+    }
+
+
+    /* IMAGINI SOCIAL MEDIA */
+
+    .social-devices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    }
+
+
+    .social-device {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #11141d;
+    }
+
+
+    .social-device img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
+    }
+
+
+    .social-device:hover img {
+    transform: scale(1.04);
+    filter: brightness(1.08);
+    }
+
+
+    /* ============================================
+    03. PARTENERI
+    ============================================ */
+
+    .partners-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 40px;
+    }
+
+
+    .partner-item {
+    padding: 25px 30px;
+    background: var(--void);
+    font-family: var(--body);
+    font-size: 0.95rem;
+    color: var(--paper-dim);
+    transition: background 0.3s ease;
+    }
+
+
+    .partner-item::before {
+    content: "•";
+    color: var(--gold);
+    margin-right: 12px;
+    }
+
+
+    .partner-item:hover {
+    background: #0b0f1d;
+    color: var(--paper);
+    }
+
+
+    /* ============================================
+    04. SUSTENABILITATE
+    ============================================ */
+
+    .sustainability-content {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 80px;
+    align-items: start;
+    }
+
+
+    .sustainability-text {
+    max-width: 750px;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--paper-dim);
+    }
+
+
+    /* MESAJUL CARE RĂMÂNE ÎNTIPĂRIT */
+
+    .sustainability-message {
+    padding: 35px 0 35px 40px;
+    border-left: 2px solid var(--gold);
+    }
+
+
+    .sustainability-message p {
+    margin: 0;
+    font-family: var(--display);
+    font-size: 2rem;
+    font-style: italic;
+    line-height: 1.25;
+    color: rgba(255, 255, 255, 0.35);
+    }
+
+
+    /* ============================================
+    RESPONSIVE DESPRE
+    ============================================ */
+
+    @media (max-width: 900px) {
+
+    .social-media-content {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+
+    .sustainability-content {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+
+    .partners-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+    .about-section {
+        padding: 60px 0;
+    }
+
+
+    .about-heading {
+        gap: 20px;
+    }
+
+
+    .about-number {
+        font-size: 2.5rem;
+    }
+
+
+    .about-section-title {
+        font-size: 2.2rem;
+    }
+
+
+    .project-team-list {
+        grid-template-columns: 1fr;
+    }
+
+
+    .social-devices {
+        grid-template-columns: 1fr;
+    }
+
+
+    .social-qr img {
+        width: 220px;
+        height: 220px;
+    }
+
+
+    .partners-list {
+        grid-template-columns: 1fr;
+    }
+
+
+    .sustainability-message {
+        padding-left: 25px;
+    }
+
+
+    .sustainability-message p {
+        font-size: 1.6rem;
+    }
+
+    }
+
+    /* ============================================
+    FOOTER
+    ============================================ */
+
+
+    footer{
+
+    padding:40px 5vw;
+
+    border-top:1px solid var(--line);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    flex-wrap:wrap;
+
+    gap:16px;
+
+    font-family:var(--mono);
+
+    font-size:0.68rem;
+
+    letter-spacing:0.08em;
+
+    text-transform:uppercase;
+
+    color:var(--paper-dim);
+
+    }
+
+
+    /* ============================================
+    RESPONSIVE
+    ============================================ */
+
+
+    @media (max-width:900px){
+
+
+    .nav{
+
+        padding:
+        18px 6vw;
+
+        align-items:center;
+
+    }
+
+
+    .nav-brand{
+
+        font-size:1.15rem;
+
+    }
+
+
+      .nav-brand img{
+
+        height:34px;
+
+        max-width:150px;
+
+      }
+
+
+      .menu-toggle{
+
+        flex-shrink:0;
+
+      }
+
+
+    .nav-list{
+
+        display:none;
+
+    }
+
+
+    section{
+
+      padding:
+      108px 6vw;
+
+    }
+
+
+    main section{
+
+      min-height:auto;
+
+    }
+
+
+    .goal-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .section-head{
+
+      margin-bottom:40px;
+
+      padding-bottom:20px;
+
+      gap:18px;
+
+    }
+
+
+    .goal-card{
+
+      min-height:auto;
+
+      padding:34px 24px 30px;
+
+      overflow:visible;
+
+    }
+
+
+    .goal-tag{
+
+      margin-bottom:16px;
+
+      font-size:0.64rem;
+
+      letter-spacing:0.14em;
+
+    }
+
+
+    .goal-title{
+
+      font-size:clamp(2rem, 8vw, 2.8rem);
+
+      line-height:1.04;
+
+      margin-bottom:14px;
+
+    }
+
+
+    .goal-desc{
+
+      font-size:0.98rem;
+
+      line-height:1.72;
+
+      word-break:break-word;
+
+      hyphens:auto;
+
+    }
+
+
+    .goal-dot{
+
+      margin-top:22px;
+
+    }
+
+
+    .team-grid{
+
+        grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(160px,1fr)
+        );
+
+    }
+
+
+    section{
+
+        padding:
+        90px 6vw;
+
+    }
+
+
+    .section-note{
+
+        text-align:left;
+
+    }
+
+
+    .imprint-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .imprint-stats{
+
+        grid-template-columns:
+        1fr 1fr;
+
+    }
+
+
+    }
+
+
+    @media (max-width:600px){
+
+
+    .hero{
+
+        padding:
+        0 6vw;
+
+    }
+
+
+    .hero-title{
+
+        font-size:
+        clamp(
+            2.7rem,
+            14vw,
+            4.5rem
+        );
+
+    }
+
+
+    .hero-meta{
+
+        gap:28px;
+
+    }
+
+
+    .imprint-stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    footer{
+
+        flex-direction:column;
+
+    }
+
+    }
+
+
+    /* ============================================
+    ACCESIBILITATE
+    ============================================ */
+
+
+    @media (prefers-reduced-motion:reduce){
+
+
+    html{
+
+        scroll-behavior:auto;
+
+    }
+
+
+    .breath-halo,
+    .scroll-cue .line{
+
+        animation:none;
+
+    }
+
+
+    }
+
+    /* ============================================
+    ACTIVITĂȚI - PREVENȚIE
+    ============================================ */
+
+    .prevention-item {
+
+    padding: 90px 0;
+
+    border-top: 1px solid var(--line);
+
+    }
+
+
+    .prevention-item:first-child {
+
+    margin-top: 80px;
+
+    }
+
+
+    /* ============================================
+    TITLU + NUMĂR
+    ============================================ */
+
+    .prevention-heading {
+
+    display: grid;
+
+    grid-template-columns:
+        120px 1fr;
+
+    gap: 40px;
+
+    margin-bottom: 50px;
+
+    }
+
+
+    .prevention-number {
+
+    font-family: var(--display);
+
+    font-style: italic;
+
+    font-size: 5rem;
+
+    line-height: 0.8;
+
+    color:
+        rgba(
+        217,
+        130,
+        10,
+        0.35
+        );
+
+    }
+
+
+    .prevention-title {
+
+    font-family: var(--display);
+
+    font-style: italic;
+
+    font-weight: 400;
+
+    font-size:
+        clamp(
+        2.5rem,
+        5vw,
+        4.5rem
+        );
+
+    line-height: 1;
+
+    margin: 0 0 10px;
+
+    color: var(--paper);
+
+    }
+
+
+    /* ============================================
+    SUBTITLU
+    ============================================ */
+
+    .prevention-subtitle {
+
+    font-family: var(--mono);
+
+    font-size: 0.75rem;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    color: var(--gold);
+
+    margin-bottom: 25px;
+
+    }
+
+
+    /* ============================================
+    TEXT
+    ============================================ */
+
+    .prevention-text {
+
+    max-width: 800px;
+
+    font-size: 1rem;
+
+    line-height: 1.8;
+
+    color: var(--paper-dim);
+
+    margin: 0;
+
+    }
+
+
+    /* ============================================
+    LOGO TURNUL SFATULUI
+    ============================================ */
+
+    .tower-logo {
+
+    margin-bottom: 30px;
+
+    max-width: 420px;
+
+    }
+
+
+    .tower-logo img {
+
+    display: block;
+
+    width: 100%;
+
+    max-width: 420px;
+
+    height: auto;
+
+    }
+
+    /* ============================================
+    POZA LATA - TURNUL SFATULUI
+    ============================================ */
+
+    .tower-photo {
+
+    width: 100%;
+
+    margin-top: 20px;
+
+    margin-bottom: 35px;
+
+    overflow: hidden;
+
+    border: 1px solid var(--line);
+
+    background: #11141d;
+
+    }
+
+
+    .tower-photo img {
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    max-height: 550px;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.7s ease,
+        filter 0.7s ease;
+
+    }
+
+
+    .tower-photo:hover img {
+
+    transform: scale(1.02);
+
+    filter: brightness(1.05);
+
+    }
+
+
+    /* ============================================
+    TEXTUL DE SUB POZĂ
+    ============================================ */
+
+    .tower-description {
+
+    max-width: 850px;
+
+    margin-bottom: 35px;
+
+    }
+
+
+    /* ============================================
+    INFORMAȚII TURNUL SFATULUI
+    ============================================ */
+
+    .tower-meta {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 35px;
+
+    padding-top: 25px;
+
+    border-top:
+        1px solid var(--line);
+
+    }
+
+
+    .tower-meta-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-family: var(--mono);
+
+    font-size: 0.7rem;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    color: var(--paper-dim);
+
+    }
+
+
+    .tower-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--gold);
+
+    flex-shrink: 0;
+
+    }
+
+    @media (max-width: 600px) {
+
+    .tower-photo img {
+
+        max-height: 350px;
+
+    }
+
+    .tower-meta {
+
+        flex-direction: column;
+
+        gap: 20px;
+
+    }
+
+    }
+
+    /* ============================================
+    INFORMAȚII TURNUL SFATULUI
+    ============================================ */
+
+    .tower-meta {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 35px;
+
+    margin-top: 35px;
+
+    padding-top: 25px;
+
+    border-top:
+        1px solid var(--line);
+
+    }
+
+
+    .tower-meta-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-family: var(--mono);
+
+    font-size: 0.7rem;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    color: var(--paper-dim);
+
+    }
+
+
+    /* Punctulețele */
+
+    .tower-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--gold);
+
+    flex-shrink: 0;
+
+    }
+
+
+    /* ============================================
+    TURNUL SFATULUI - SPAȚIERE
+    ============================================ */
+
+    .tower-item {
+
+    padding-top: 100px;
+
+    padding-bottom: 100px;
+
+    }
+    /* ============================================
+    BUTON VIDEO
+    ============================================ */
+
+    .video-section {
+
+    margin: 40px 0 50px;
+
+    }
+
+
+    .video-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 16px 25px;
+
+    background: transparent;
+
+    border: 1px solid var(--gold);
+
+    color: var(--paper);
+
+    font-family: var(--mono);
+
+    font-size: 0.7rem;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+
+    }
+
+
+    .video-button:hover {
+
+    background: var(--gold);
+
+    color: #111;
+
+    }
+
+
+    .video-icon {
+
+    font-size: 0.8rem;
+
+    }
+
+
+    /* ============================================
+    VIDEO MODAL
+    ============================================ */
+
+    .video-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 40px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+
+    }
+
+
+    .video-modal.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+    }
+
+
+    /* Fundal întunecat */
+
+    .video-modal-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        rgba(5, 7, 10, 0.94);
+
+    backdrop-filter: blur(8px);
+
+    }
+
+
+    /* Container video */
+
+    .video-modal-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(1000px, 100%);
+
+    background: #0c0f14;
+
+    border: 1px solid var(--line);
+
+    box-shadow:
+        0 30px 80px
+        rgba(0, 0, 0, 0.6);
+
+    transform:
+        translateY(20px)
+        scale(0.97);
+
+    transition:
+        transform 0.3s ease;
+
+    }
+
+
+    .video-modal.active
+    .video-modal-content {
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    }
+
+
+    /* Videoclip */
+
+    .creative-video {
+
+    display: block;
+
+    width: 100%;
+
+    max-height: 75vh;
+
+    background: #000;
+
+    }
+
+
+    /* ============================================
+    BUTON ÎNCHIDERE
+    ============================================ */
+
+    .video-close {
+
+    position: absolute;
+
+    top: -45px;
+
+    right: 0;
+
+    width: 35px;
+
+    height: 35px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--paper);
+
+    font-size: 2rem;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        color 0.3s ease;
+
+    }
+
+
+    .video-close:hover {
+
+    color: var(--gold);
+
+    }
+
+
+    /* ============================================
+    TELEFON
+    ============================================ */
+
+    @media (max-width: 600px) {
+
+    .video-modal {
+
+        padding: 20px;
+
+    }
+
+
+    .video-close {
+
+        top: -40px;
+
+    }
+
+    }
+
+    /* ============================================
+    RESPONSIVE
+    ============================================ */
+
+    @media (max-width: 900px) {
+
+
+    .prevention-heading {
+
+        grid-template-columns:
+        80px 1fr;
+
+        gap: 25px;
+
+    }
+
+
+    .prevention-number {
+
+        font-size: 4rem;
+
+    }
+
+
+    }
+
+
+    @media (max-width: 600px) {
+
+
+    .prevention-item {
+
+        padding: 60px 0;
+
+    }
+
+
+    .prevention-heading {
+
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+
+    }
+
+
+    .prevention-number {
+
+        font-size: 3.5rem;
+
+    }
+
+
+    .prevention-title {
+
+        font-size: 3rem;
+
+    }
+
+
+    .tower-logo {
+
+        max-width: 300px;
+
+    }
+
+
+    .tower-meta {
+
+        flex-direction: column;
+
+        gap: 20px;
+
+    }
+
+
+    }
+
+    /* ============================================
+   DESPRE - DESIGN UNIFICAT CU RESTUL PAGINILOR
+============================================ */
+
+/* Container principal */
+.about-content {
+  max-width: 100%;
+}
+
+
+/* ============================================
+   HEADER SECȚIUNI
+   01 / 02 / 03 / 04
+============================================ */
+
+.about-section-heading {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 30px;
+
+  margin-bottom: 50px;
+
+}
+
+
+/* Numărul mare */
+
+.about-section-number {
+
+  font-family: var(--display);
+
+  font-size: 3.5rem;
+
+  font-style: italic;
+
+  color: var(--gold);
+
+  line-height: 0.9;
+
+  flex-shrink: 0;
+
+}
+
+
+/* Eticheta mică de deasupra titlului */
+
+.about-section-label {
+
+  font-family: var(--mono);
+
+  font-size: 0.65rem;
+
+  letter-spacing: 0.15em;
+
+  text-transform: uppercase;
+
+  color: var(--gold);
+
+  margin-bottom: 10px;
+
+}
+
+
+/* Titlul secțiunii */
+
+.about-section-title {
+
+  font-family: var(--display);
+
+  font-size: 2.8rem;
+
+  font-style: italic;
+
+  font-weight: 400;
+
+  color: var(--paper);
+
+  margin: 0;
+
+  line-height: 1;
+
+}
+
+
+/* ============================================
+   SECȚIUNILE DESPRE
+============================================ */
+
+.about-section {
+
+  padding: 90px 0;
+
+  border-top: 1px solid var(--line);
+
+}
+
+
+.about-section:first-child {
+
+  border-top: none;
+
+}
+
+
+/* ============================================
+   TEXT INTRODUCTIV
+============================================ */
+
+.social-intro,
+.partners-intro {
+
+  max-width: 800px;
+
+  margin-bottom: 40px;
+
+}
+
+
+.social-intro p,
+.partners-intro p {
+
+  font-size: 1rem;
+
+  line-height: 1.8;
+
+  color: var(--paper-dim);
+
+}
+
+
+/* ============================================
+   01. ECHIPA DE PROIECT
+============================================ */
+
+.students-list {
+
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 1px;
+
+  background: var(--line);
+
+  border: 1px solid var(--line);
+
+  margin-top: 40px;
+
+}
+
+
+.student-item {
+
+  background: var(--void);
+
+  padding: 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  transition: background 0.3s ease;
+
+}
+
+
+.student-item:hover {
+
+  background: #0b0f1d;
+
+}
+
+
+.student-dot {
+
+  width: 7px;
+
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--gold);
+
+  flex-shrink: 0;
+
+}
+
+
+.student-name {
+
+  font-family: var(--display);
+
+  font-style: italic;
+
+  font-size: 1.5rem;
+
+  color: var(--paper);
+
+}
+
+
+/* ============================================
+   POZA ECHIPEI
+============================================ */
+
+.team-photo {
+
+  margin-top: 60px;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  border: 1px solid var(--line);
+
+  background: #11141d;
+
+}
+
+
+.team-photo img {
+
+  display: block;
+
+  width: 100%;
+
+  height: auto;
+
+  max-height: 650px;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.7s ease,
+    filter 0.7s ease;
+
+}
+
+
+.team-photo:hover img {
+
+  transform: scale(1.02);
+
+  filter: brightness(1.05);
+
+}
+
+
+/* ============================================
+   02. SOCIAL MEDIA
+============================================ */
+
+.social-media-grid {
+
+  display: grid;
+
+  grid-template-columns: 0.8fr 1.2fr;
+
+  gap: 60px;
+
+  align-items: center;
+
+}
+
+
+/* QR CODE */
+
+.social-qr {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+
+.social-card-label {
+
+  font-family: var(--mono);
+
+  font-size: 0.65rem;
+
+  letter-spacing: 0.15em;
+
+  text-transform: uppercase;
+
+  color: var(--gold);
+
+  margin-bottom: 20px;
+
+}
+
+
+.qr-wrapper {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+
+.qr-wrapper img {
+
+  width: 280px;
+
+  height: 280px;
+
+  object-fit: contain;
+
+  border: 1px solid var(--line);
+
+  padding: 15px;
+
+  background: var(--paper);
+
+}
+
+
+.qr-text {
+
+  max-width: 280px;
+
+  margin-top: 20px;
+
+  text-align: center;
+
+  font-size: 0.85rem;
+
+  line-height: 1.6;
+
+  color: var(--paper-dim);
+
+}
+
+
+/* IMAGINI SOCIAL MEDIA */
+
+.social-device {
+
+  overflow: hidden;
+
+  border: 1px solid var(--line);
+
+  background: #11141d;
+
+}
+
+
+.social-device img {
+
+  display: block;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.6s ease,
+    filter 0.6s ease;
+
+}
+
+
+.social-device:hover img {
+
+  transform: scale(1.04);
+
+  filter: brightness(1.08);
+
+}
+
+
+/* ============================================
+   03. PARTENERI
+============================================ */
+
+.partners-list {
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 1px;
+
+  background: var(--line);
+
+  border: 1px solid var(--line);
+
+  margin-top: 40px;
+
+}
+
+
+.partner-item {
+
+  padding: 25px 30px;
+
+  background: var(--void);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  font-family: var(--body);
+
+  font-size: 0.95rem;
+
+  color: var(--paper-dim);
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+
+}
+
+
+.partner-item:hover {
+
+  background: #0b0f1d;
+
+  color: var(--paper);
+
+}
+
+
+.partner-dot {
+
+  width: 7px;
+
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--gold);
+
+  flex-shrink: 0;
+
+}
+
+
+.partner-name {
+
+  display: block;
+
+}
+
+
+/* ============================================
+   04. SUSTENABILITATE
+============================================ */
+
+.sustainability-content {
+
+  display: grid;
+
+  grid-template-columns: 1.2fr 0.8fr;
+
+  gap: 80px;
+
+  align-items: start;
+
+}
+
+
+.sustainability-main {
+
+  max-width: 750px;
+
+}
+
+
+.sustainability-main p {
+
+  margin: 0;
+
+  font-size: 1.15rem;
+
+  line-height: 1.8;
+
+  color: var(--paper);
+
+}
+
+
+/* MESAJ MEMORABIL */
+
+.sustainability-message {
+
+  padding: 35px 0 35px 40px;
+
+  border-left: 2px solid var(--gold);
+
+}
+
+
+.sustainability-message p {
+
+  margin: 0;
+
+  font-family: var(--display);
+
+  font-size: 2rem;
+
+  font-style: italic;
+
+  line-height: 1.25;
+
+  color: rgba(255, 255, 255, 0.35);
+
+}
+
+
+/* ============================================
+   RESPONSIVE - TABLETĂ
+============================================ */
+
+@media (max-width: 900px) {
+
+  .social-media-grid {
+
+    grid-template-columns: 1fr;
+
+    gap: 50px;
+
+  }
+
+
+  .sustainability-content {
+
+    grid-template-columns: 1fr;
+
+    gap: 50px;
+
+  }
+
+
+  .partners-list {
+
+    grid-template-columns: repeat(2, 1fr);
+
+  }
+
+}
+
+
+/* ============================================
+   RESPONSIVE - TELEFON
+============================================ */
+
+@media (max-width: 600px) {
+
+  .about-section {
+
+    padding: 60px 0;
+
+  }
+
+
+  .about-section-heading {
+
+    gap: 20px;
+
+  }
+
+
+  .about-section-number {
+
+    font-size: 2.5rem;
+
+  }
+
+
+  .about-section-title {
+
+    font-size: 2.2rem;
+
+  }
+
+
+  .students-list {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .social-media-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .qr-wrapper img {
+
+    width: 220px;
+
+    height: 220px;
+
+  }
+
+
+  .partners-list {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .sustainability-message {
+
+    padding-left: 25px;
+
+  }
+
+
+  .sustainability-message p {
+
+    font-size: 1.6rem;
+
+  }
+
+}
+/* ============================================
+   LOGO MENIU
+============================================ */
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-brand img {
+  display: block;
+  width: auto;
+  height: 52px;
+  max-width: 220px;
+  object-fit: contain;
+}
+/* ============================================
+   FOOTER - LOGO-URI PARTENERI
+============================================ */
+
+footer {
+
+  padding: 50px 5vw;
+
+  border-top: 1px solid var(--line);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  flex-wrap: wrap;
+
+  gap: 30px;
+
+}
+
+
+/* Container logo-uri */
+
+.footer-logos {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 35px;
+
+}
+
+
+/* Fiecare logo */
+
+.footer-logos img {
+
+  display: block;
+
+  width: auto;
+
+  height: 55px;
+
+  max-width: 180px;
+
+  object-fit: contain;
+
+  opacity: 0.75;
+
+  filter: grayscale(100%);
+
+  transition:
+    opacity 0.3s ease,
+    filter 0.3s ease,
+    transform 0.3s ease;
+
+}
+
+
+/* Efect hover */
+
+.footer-logos img:hover {
+
+  opacity: 1;
+
+  filter: grayscale(0%);
+
+  transform: translateY(-3px);
+
+}
+
+
+/* Anul */
+
+.footer-year {
+
+  font-family: var(--mono);
+
+  font-size: 0.68rem;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+
+  color: var(--paper-dim);
+
+}
+
+
+/* ============================================
+   FOOTER - TELEFON
+============================================ */
+
+@media (max-width: 600px) {
+
+  footer {
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 40px 6vw;
+
+  }
+
+
+  .footer-logos {
+
+    width: 100%;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+
+  }
+
+
+  .footer-logos img {
+
+    height: 45px;
+
+    max-width: 130px;
+
+  }
+
+}
+/* ============================================
+   LOGO-URI - HERO PAGINA ACASĂ
+============================================ */
+
+.hero-logos {
+
+  position: absolute;
+
+  right: 7vw;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 280px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 35px;
+
+  z-index: 2;
+
+}
+
+
+/* Fiecare logo */
+
+.hero-logos img {
+
+  display: block;
+
+  width: auto;
+
+  max-width: 220px;
+
+  height: 70px;
+
+  object-fit: contain;
+
+  opacity: 0.8;
+
+  filter: grayscale(100%);
+
+  transition:
+    opacity 0.4s ease,
+    filter 0.4s ease,
+    transform 0.4s ease;
+
+}
+
+
+/* Hover */
+
+.hero-logos img:hover {
+
+  opacity: 1;
+
+  filter: grayscale(0%);
+
+  transform: scale(1.05);
+
+}
+@media (max-width: 900px) {
+
+  .hero-logos {
+
+    position: relative;
+
+    right: auto;
+
+    top: auto;
+
+    transform: none;
+
+    width: 100%;
+
+    margin-top: 60px;
+
+    flex-direction: row;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+  }
+
+
+  .hero-logos img {
+
+    height: 50px;
+
+    max-width: 130px;
+
+  }
+
+}
+/* ============================================
+   MENIU MOBIL - BUTON HAMBURGER
+============================================ */
+
+.menu-toggle {
+
+  display: none;
+
+  width: 42px;
+
+  height: 42px;
+
+  padding: 8px;
+
+  border: 1px solid var(--line);
+
+  background: rgba(5, 7, 13, 0.5);
+
+  cursor: pointer;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  z-index: 1001;
+
+}
+
+
+.menu-toggle span {
+
+  display: block;
+
+  width: 22px;
+
+  height: 1px;
+
+  background: var(--paper);
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+
+}
+
+
+/* ============================================
+   MENIU MOBIL
+============================================ */
+
+@media (max-width: 900px) {
+
+  .nav {
+
+    padding: 16px 6vw;
+
+  }
+
+
+  /* Afișăm butonul */
+
+  .menu-toggle {
+
+    display: flex;
+
+  }
+
+
+  /* Meniul este ascuns implicit */
+
+  .nav-list {
+
+    position: fixed;
+
+    top: 0;
+
+    right: 0;
+
+    width: min(360px, 85vw);
+
+    height: 100vh;
+
+    padding:
+
+      110px
+      35px
+      40px;
+
+    margin: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 0;
+
+    background:
+
+      rgba(5, 7, 13, 0.98);
+
+    border-left: 1px solid var(--line);
+
+    backdrop-filter: blur(15px);
+
+    transform: translateX(100%);
+
+    visibility: hidden;
+
+    transition:
+
+      transform 0.35s ease,
+
+      visibility 0.35s ease;
+
+    overflow-y: auto;
+
+    z-index: 1000;
+
+  }
+
+
+  /* Meniul deschis */
+
+  .nav.menu-open .nav-list {
+
+    transform: translateX(0);
+
+    visibility: visible;
+
+  }
+
+
+  /* Elementele meniului */
+
+  .nav-list > li {
+
+    width: 100%;
+
+    border-bottom: 1px solid var(--line);
+
+  }
+
+
+  .nav-link {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    padding: 18px 0;
+
+    font-size: 0.75rem;
+
+  }
+
+
+  /* Dezactivăm linia de subliniere pe mobil */
+
+  .nav-link::after {
+
+    display: none;
+
+  }
+
+
+  .nav-link:hover,
+
+  .nav-link.active:hover,
+
+  .submenu li a:hover {
+
+    color: var(--paper-dim);
+
+    background: transparent;
+
+  }
+
+
+  .nav-link.active:hover {
+
+    color: var(--paper);
+
+  }
+
+
+  .has-sub:hover .caret {
+
+    transform:
+
+      rotate(45deg)
+      translateY(-2px);
+
+  }
+
+
+  .has-sub:hover .submenu {
+
+    display: none;
+
+    transform: none;
+
+  }
+
+
+  /* Submeniul */
+
+  .submenu {
+
+    position: static;
+
+    left: auto;
+
+    right: auto;
+
+    min-width: 0;
+
+    width: 100%;
+
+    padding: 0 0 10px;
+
+    background: transparent;
+
+    border: 0;
+
+    margin: 0;
+
+    backdrop-filter: none;
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: none;
+
+    display: none;
+
+  }
+
+
+  .submenu li {
+
+    width: 100%;
+
+  }
+
+
+  .submenu li a {
+
+    display: block;
+
+    width: 100%;
+
+    padding: 13px 0 13px 0;
+
+  }
+
+
+  .has-sub:hover .submenu {
+
+    display: none;
+
+  }
+
+
+  .has-sub.submenu-open .submenu {
+
+    display: block;
+
+    transform: none;
+
+  }
+
+
+  .submenu li + li {
+
+    border-top: 1px solid rgba(246,239,223,0.08);
+
+  }
+
+
+  .submenu li a {
+
+    padding: 13px 15px 13px 26px;
+
+    font-size: 0.65rem;
+
+  }
+
+
+  /* Rotirea săgeții */
+
+  .has-sub.submenu-open .caret {
+
+    transform:
+
+      rotate(225deg)
+      translateY(2px);
+
+  }
+
+
+  /* Animația hamburgerului */
+
+  .nav.menu-open .menu-toggle span:nth-child(1) {
+
+    transform:
+      translateY(6px)
+      rotate(45deg);
+
+  }
+
+
+  .nav.menu-open .menu-toggle span:nth-child(2) {
+
+    opacity: 0;
+
+  }
+
+
+  .nav.menu-open .menu-toggle span:nth-child(3) {
+
+    transform:
+      translateY(-6px)
+      rotate(-45deg);
+
+  }
+
+}

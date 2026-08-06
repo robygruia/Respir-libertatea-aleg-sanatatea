@@ -4358,8 +4358,8 @@
 .nav-brand img {
   display: block;
   width: auto;
-  height: 52px;
-  max-width: 220px;
+  height: 72px;
+  max-width: 280px;
   object-fit: contain;
 }
 /* ============================================
@@ -4414,27 +4414,11 @@ footer {
 
   object-fit: contain;
 
-  opacity: 0.75;
-
-  filter: grayscale(100%);
-
-  transition:
-    opacity 0.3s ease,
-    filter 0.3s ease,
-    transform 0.3s ease;
-
-}
-
-
-/* Efect hover */
-
-.footer-logos img:hover {
-
   opacity: 1;
 
-  filter: grayscale(0%);
+  filter: none;
 
-  transform: translateY(-3px);
+  transition: none;
 
 }
 
@@ -4532,33 +4516,17 @@ footer {
 
   width: auto;
 
-  max-width: 220px;
+  max-width: 280px;
 
-  height: 70px;
+  height: 92px;
 
   object-fit: contain;
 
-  opacity: 0.8;
-
-  filter: grayscale(100%);
-
-  transition:
-    opacity 0.4s ease,
-    filter 0.4s ease,
-    transform 0.4s ease;
-
-}
-
-
-/* Hover */
-
-.hero-logos img:hover {
-
   opacity: 1;
 
-  filter: grayscale(0%);
+  filter: none;
 
-  transform: scale(1.05);
+  transition: none;
 
 }
 @media (max-width: 900px) {
@@ -4590,9 +4558,9 @@ footer {
 
   .hero-logos img {
 
-    height: 50px;
+    height: 60px;
 
-    max-width: 130px;
+    max-width: 160px;
 
   }
 

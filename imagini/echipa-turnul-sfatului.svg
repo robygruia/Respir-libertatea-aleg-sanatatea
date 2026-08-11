@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Echipa Turnul Sfatului</title>
+  <desc id="desc">Ilustrație simplă a unei echipe într-un spațiu de lucru și de discuții.</desc>
+  <rect width="1600" height="900" fill="#11141d"/>
+  <rect x="80" y="120" width="1440" height="660" rx="36" fill="#171c28" stroke="#4b5b75" stroke-width="3"/>
+  <rect x="130" y="180" width="1340" height="180" rx="24" fill="#1f2634"/>
+  <circle cx="360" cy="540" r="112" fill="#d8ac4a" opacity="0.95"/>
+  <circle cx="730" cy="540" r="112" fill="#f6efdf" opacity="0.9"/>
+  <circle cx="1100" cy="540" r="112" fill="#d8ac4a" opacity="0.92"/>
+  <circle cx="360" cy="470" r="72" fill="#11141d"/>
+  <circle cx="730" cy="470" r="72" fill="#11141d"/>
+  <circle cx="1100" cy="470" r="72" fill="#11141d"/>
+  <rect x="278" y="592" width="164" height="126" rx="22" fill="#f6efdf"/>
+  <rect x="648" y="592" width="164" height="126" rx="22" fill="#d8ac4a"/>
+  <rect x="1018" y="592" width="164" height="126" rx="22" fill="#f6efdf"/>
+  <rect x="220" y="220" width="280" height="18" rx="9" fill="#d8ac4a"/>
+  <rect x="220" y="258" width="220" height="16" rx="8" fill="#60708d"/>
+  <rect x="720" y="220" width="280" height="18" rx="9" fill="#f6efdf"/>
+  <rect x="720" y="258" width="210" height="16" rx="8" fill="#60708d"/>
+  <rect x="1080" y="220" width="240" height="18" rx="9" fill="#d8ac4a"/>
+  <rect x="1080" y="258" width="180" height="16" rx="8" fill="#60708d"/>
+  <rect x="216" y="720" width="1168" height="18" rx="9" fill="#60708d" opacity="0.45"/>
+  <rect x="240" y="748" width="1120" height="12" rx="6" fill="#60708d" opacity="0.35"/>
+  <path d="M350 310c24-50 95-72 144-50" stroke="#f6efdf" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M720 310c24-50 95-72 144-50" stroke="#11141d" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M1090 310c24-50 95-72 144-50" stroke="#f6efdf" stroke-width="12" fill="none" stroke-linecap="round"/>
+</svg>

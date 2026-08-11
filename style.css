@@ -2514,8 +2514,11 @@
     ============================================ */
 
     .team-photo {
-    margin-top: 60px;
+    margin-top: 40px;
     width: 100%;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
     overflow: hidden;
     border: 1px solid var(--line);
     background: #11141d;
@@ -2526,7 +2529,7 @@
     display: block;
     width: 100%;
     height: auto;
-    max-height: 650px;
+    max-height: 320px;
     object-fit: cover;
     transition:
         transform 0.7s ease,
@@ -2535,8 +2538,8 @@
 
 
     .team-photo:hover img {
-    transform: scale(1.02);
-    filter: brightness(1.05);
+    transform: scale(1.01);
+    filter: brightness(1.03);
     }
 
 
@@ -3250,6 +3253,40 @@
 
 
     /* ============================================
+    POZA CU ECHIPA - TURNUL SFATULUI
+    ============================================ */
+
+    .tower-team-photo {
+
+    width: 100%;
+
+    max-width: 980px;
+
+    margin: 10px 0 40px;
+
+    overflow: hidden;
+
+    border: 1px solid var(--line);
+
+    background: #11141d;
+
+    }
+
+
+    .tower-team-photo img {
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    object-fit: cover;
+
+    }
+
+
+    /* ============================================
     INFORMAȚII TURNUL SFATULUI
     ============================================ */
 
@@ -3304,11 +3341,29 @@
 
     }
 
+    @media (max-width: 900px) {
+
+    .tower-team-photo {
+
+        max-width: 100%;
+
+        margin-bottom: 30px;
+
+    }
+
+    }
+
     @media (max-width: 600px) {
 
     .tower-photo img {
 
         max-height: 350px;
+
+    }
+
+    .tower-team-photo {
+
+        margin: 6px 0 28px;
 
     }
 
@@ -3449,6 +3504,235 @@
     .video-icon {
 
     font-size: 0.8rem;
+
+    }
+
+
+    /* ============================================
+    LIGHTBOX IMAGINI
+    ============================================ */
+
+    .image-lightbox {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 24px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+
+    }
+
+
+    .image-lightbox.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+    }
+
+
+    .image-lightbox-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(5, 7, 10, 0.95);
+
+    backdrop-filter: blur(6px);
+
+    }
+
+
+    .image-lightbox-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: min(1100px, 100%);
+
+    max-height: 90vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    }
+
+
+    .image-lightbox-nav {
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 44px;
+    height: 44px;
+
+    border: 1px solid var(--line);
+    background: rgba(10, 12, 22, 0.8);
+    color: var(--paper);
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        opacity 0.25s ease;
+    }
+
+
+    .image-lightbox-nav:hover {
+
+    background: rgba(240, 190, 5, 0.14);
+    color: var(--gold);
+
+    }
+
+
+    .image-lightbox-nav.is-hidden {
+
+    opacity: 0;
+    pointer-events: none;
+
+    }
+
+
+    .image-lightbox-prev {
+
+    left: -56px;
+
+    }
+
+
+    .image-lightbox-next {
+
+    right: -56px;
+
+    }
+
+
+    .image-lightbox-image {
+
+    display: block;
+
+    width: auto;
+
+    max-width: 100%;
+
+    max-height: 90vh;
+
+    object-fit: contain;
+
+    border: 1px solid var(--line);
+
+    background: #11141d;
+
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+
+    }
+
+
+    .image-lightbox-close {
+
+    position: absolute;
+
+    top: -46px;
+
+    right: 0;
+
+    width: 38px;
+
+    height: 38px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--paper);
+
+    font-size: 2rem;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    }
+
+
+    .image-lightbox-close:hover {
+
+    color: var(--gold);
+
+    }
+
+
+    @media (max-width: 600px) {
+
+    .image-lightbox {
+
+        padding: 16px;
+
+    }
+
+    .image-lightbox-close {
+
+        top: -40px;
+
+    }
+
+    .image-lightbox-nav {
+
+        width: 40px;
+        height: 40px;
+        font-size: 1.6rem;
+
+    }
+
+    .image-lightbox-prev {
+
+        left: -8px;
+        top: auto;
+        bottom: -56px;
+        transform: none;
+
+    }
+
+    .image-lightbox-next {
+
+        right: -8px;
+        top: auto;
+        bottom: -56px;
+        transform: none;
+
+    }
 
     }
 
@@ -4053,6 +4337,60 @@
 }
 
 
+/* ============================================
+   02. PARTICIPANȚI
+============================================ */
+
+.participants-panel {
+
+  max-width: 860px;
+
+  padding: 36px 38px;
+
+  border: 1px solid var(--line);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(17, 20, 29, 0.92),
+      rgba(10, 14, 28, 0.96)
+    );
+
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+
+  display: grid;
+
+  gap: 18px;
+
+}
+
+
+.participants-lead {
+
+  font-family: var(--display);
+
+  font-style: italic;
+
+  font-size: 1.5rem;
+
+  line-height: 1.45;
+
+  color: var(--paper);
+
+}
+
+
+.participants-panel p:not(.participants-lead) {
+
+  font-size: 1rem;
+
+  line-height: 1.8;
+
+  color: var(--paper-dim);
+
+}
+
+
 /* IMAGINI SOCIAL MEDIA */
 
 .social-device {
@@ -4297,6 +4635,20 @@
   .about-section-title {
 
     font-size: 2.2rem;
+
+  }
+
+
+  .participants-panel {
+
+    padding: 28px 24px;
+
+  }
+
+
+  .participants-lead {
+
+    font-size: 1.25rem;
 
   }
 
